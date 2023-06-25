@@ -8,7 +8,7 @@ pipeline
 	    environment
 	        {
 	            CLOUDSDK_CORE_PROJECT='fast-api-python-04030613'
-	            LOCATION='southamerica-east1-b'
+	            LOCATION='southamerica-east1'
                 CLIENT_EMAIL='jenkins-fast-api@fast-api-python-04030613.iam.gserviceaccount.com'
                 GCLOUD_CREDS=credentials('gcloud-fast-api-cred')
                 GCLOUDS_CRED_GKE='gke-fast-api-python-04030613-creds'
