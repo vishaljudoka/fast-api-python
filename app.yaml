@@ -1,0 +1,47 @@
+# kubernetes-fastapi Service
+# Enables the pods in a deployment to be accessible from outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: fast-api-service
+  namespace: fast
+spec:
+  selector:
+    app: fast-api
+  ports:
+    - protocol: "TCP"
+      port: 8181
+      targetPort: 8000
+  type: ClusterIP
+
+---
+# kf-api Deployment
+# Defines the deployment of the app running in a pod on any worker node
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-api
+  namespace: fast
+  labels:
+    app: fast-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fast-api
+  template:
+    metadata:
+      labels:
+        app: fast-api
+    spec:
+      containers:
+        - name: fast-api
+          image: vishaljudoka/fast-api-python:latest
+          ports:
+            - containerPort: 8000
+          imagePullPolicy: Always
+          resources:
+            # You must specify requests for CPU to autoscale
+            # based on CPU utilization
+            requests:
+              cpu: "250m"

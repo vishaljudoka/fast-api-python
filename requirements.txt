@@ -1,0 +1,6 @@
+uvicorn
+pymongo==4.3.2
+fastapi
+motor
+typing
+pydantic
