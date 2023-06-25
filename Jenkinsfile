@@ -8,7 +8,7 @@ pipeline
 	    environment
 	        {
 	            CLOUDSDK_CORE_PROJECT='fast-api-python-04030613'
-	            LOCATION='southamerica-east1'
+	            LOCATION='southamerica-east1-b'
                 CLIENT_EMAIL='jenkins-fast-api@fast-api-python-04030613.iam.gserviceaccount.com'
                 GCLOUD_CREDS=credentials('gcloud-fast-api-cred')
                 GCLOUDS_CRED_GKE='gke-fast-api-python-04030613-creds'
@@ -143,6 +143,8 @@ pipeline
 			        steps{
                     echo 'GKE Deployment started ...'
                     step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
+                    echo "Deploying ingress YAML ..."
+                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'ingress.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
                     echo "GKE Deployment Finished ..."
                 }
                 }
