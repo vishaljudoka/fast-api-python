@@ -138,7 +138,9 @@ pipeline
 
                     }
                 }
-           parallel {
+            stage('Deploying to  GKE K8s Production')
+		        {
+		        parallel {
                 stage('Deploying deployment and service') {
                     steps {
                         echo 'GKE Deployment started ...'
@@ -156,6 +158,7 @@ pipeline
                     }
                 }
             }
+                }
 
         }
                 post
