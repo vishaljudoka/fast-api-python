@@ -138,16 +138,24 @@ pipeline
 
                     }
                 }
-            stage('Deploying to  GKE K8s Production')
-		        {
-			        steps{
-                    echo 'GKE Deployment started ...'
-                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
-                    echo "Deploying ingress YAML ..."
-                    step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'ingress.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
-                    echo "GKE Deployment Finished ..."
+           parallel {
+                stage('Deploying deployment and service') {
+                    steps {
+                        echo 'GKE Deployment started ...'
+                        step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'app.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
+                        echo "GKE Deployment Finished ..."
+                    }
+
                 }
+                stage('Deploying ingress')
+				{
+                    steps {
+                        echo "Deploying ingress YAML ..."
+						step([$class: 'KubernetesEngineBuilder', projectId: env.CLOUDSDK_CORE_PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'ingress.yaml', credentialsId: env.GCLOUDS_CRED_GKE, verifyDeployments: false])
+                        echo "GKE ingress Finished ..."
+                    }
                 }
+            }
 
         }
                 post
