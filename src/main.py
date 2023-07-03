@@ -17,7 +17,7 @@ pydantic : for data modeling/parsing that has efficient error handling. it allow
 '''
 
 app= FastAPI()
-CONNECTION_STRING = "mongodb+srv://vishaljudoka:Wa90sIHkWkgizrRr@cluster0.1o44czu.mongodb.net"
+CONNECTION_STRING = "mongodb+srv://vishaljudoka:79pGwBMXf2aZQSTG@cluster0.1o44czu.mongodb.net"
 client = motor.motor_asyncio.AsyncIOMotorClient(CONNECTION_STRING)
 db = client.product
 
